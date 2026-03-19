@@ -1,0 +1,4 @@
+package com.SpringProject.Lovable_Clone.DTOs.SubscriptionDTOs;
+
+public record CheckoutResponse(String checkoutUrl) {
+}
