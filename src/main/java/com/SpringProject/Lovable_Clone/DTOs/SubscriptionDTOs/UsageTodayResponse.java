@@ -1,9 +1,9 @@
 package com.SpringProject.Lovable_Clone.DTOs.SubscriptionDTOs;
 
 public record UsageTodayResponse(
-        int tokensUsed,
-        int tokensLimit,
-        int previewsRunning,
-        int previewsLimit
+        Integer tokensUsed,
+        Integer tokensLimit,
+        Integer previewsRunning,
+        Integer previewsLimit
 ) {
 }
