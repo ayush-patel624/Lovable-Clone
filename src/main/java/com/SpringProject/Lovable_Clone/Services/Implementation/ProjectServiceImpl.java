@@ -3,14 +3,31 @@ package com.SpringProject.Lovable_Clone.Services.Implementation;
 import com.SpringProject.Lovable_Clone.DTOs.ProjectDTO.ProjectRequest;
 import com.SpringProject.Lovable_Clone.DTOs.ProjectDTO.ProjectResponse;
 import com.SpringProject.Lovable_Clone.DTOs.ProjectDTO.ProjectSummaryResponse;
+import com.SpringProject.Lovable_Clone.Entities.Project;
+import com.SpringProject.Lovable_Clone.Entities.User;
+import com.SpringProject.Lovable_Clone.Mapper.ProjectMapper;
+import com.SpringProject.Lovable_Clone.Repository.ProjectRepository;
+import com.SpringProject.Lovable_Clone.Repository.UserRepository;
 import com.SpringProject.Lovable_Clone.Services.ProjectService;
+import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true , level = AccessLevel.PRIVATE)
+@Transactional()
 public class ProjectServiceImpl implements ProjectService {
+
+    ProjectRepository projectRepository;
+    UserRepository  userRepository;
+    ProjectMapper projectMapper;
+
     @Override
     public List<ProjectSummaryResponse> getUserProjects(Long userId) {
         return List.of();
@@ -23,7 +40,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectResponse createProject(ProjectRequest request, Long userId) {
-        return null;
+       User owner = userRepository.findById(userId).orElseThrow();
+
+       Project project = Project.builder()
+               .name(request.name())
+               .owner(owner)
+               .build();
+
+       project = projectRepository.save(project);
+
+       return projectMapper.toProjectResponse(project);
+
     }
 
     @Override
