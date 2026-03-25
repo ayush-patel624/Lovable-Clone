@@ -5,6 +5,7 @@ import com.SpringProject.Lovable_Clone.DTOs.ProjectDTO.ProjectResponse;
 import com.SpringProject.Lovable_Clone.DTOs.ProjectDTO.ProjectSummaryResponse;
 import com.SpringProject.Lovable_Clone.Entities.Project;
 import com.SpringProject.Lovable_Clone.Entities.User;
+import com.SpringProject.Lovable_Clone.Error.ResourceNotFoundException;
 import com.SpringProject.Lovable_Clone.Mapper.ProjectMapper;
 import com.SpringProject.Lovable_Clone.Repository.ProjectRepository;
 import com.SpringProject.Lovable_Clone.Repository.UserRepository;
@@ -86,6 +87,7 @@ public class ProjectServiceImpl implements ProjectService {
     /// INTERNAL FUNCTIONS
 
     public Project getAccessibleProjectById(Long id, Long userId) {
-        return projectRepository.findAccessibleProjectById(id,userId).orElseThrow();
+        return projectRepository.findAccessibleProjectById(id,userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project" , id));
     }
 }

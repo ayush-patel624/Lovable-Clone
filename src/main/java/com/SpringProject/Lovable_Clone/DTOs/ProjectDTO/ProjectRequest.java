@@ -1,7 +1,9 @@
 package com.SpringProject.Lovable_Clone.DTOs.ProjectDTO;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record ProjectRequest(
-        String name
+        @NotBlank String name
 ) {
 
 }
