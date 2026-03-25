@@ -3,6 +3,7 @@ package com.SpringProject.Lovable_Clone.Services;
 import com.SpringProject.Lovable_Clone.DTOs.MemberDTO.InviteMemberRequest;
 import com.SpringProject.Lovable_Clone.DTOs.MemberDTO.MemberResponse;
 import com.SpringProject.Lovable_Clone.DTOs.MemberDTO.UpdateMemberRoleRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ public interface ProjectMemberService {
 
     MemberResponse updateMemberRole(Long projectId, Long memberId, UpdateMemberRoleRequest request, Long userId);
 
-    MemberResponse deleteProjectMember(Long projectId, Long memberId, Long userId);
+    void removeProjectMember(Long projectId, Long memberId, Long userId);
 }
