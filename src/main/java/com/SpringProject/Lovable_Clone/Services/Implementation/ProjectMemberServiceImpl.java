@@ -11,6 +11,7 @@ import com.SpringProject.Lovable_Clone.Mapper.ProjectMemberMapper;
 import com.SpringProject.Lovable_Clone.Repository.ProjectMemberRepository;
 import com.SpringProject.Lovable_Clone.Repository.ProjectRepository;
 import com.SpringProject.Lovable_Clone.Repository.UserRepository;
+import com.SpringProject.Lovable_Clone.Security.AuthUtil;
 import com.SpringProject.Lovable_Clone.Services.ProjectMemberService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,13 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     ProjectRepository projectRepository;
     ProjectMemberMapper projectMemberMapper;
     UserRepository userRepository;
+    AuthUtil authUtil;
 
     @Override
-    public List<MemberResponse> getProjectMembers(Long projectId, Long userId) {
+    public List<MemberResponse> getProjectMembers(Long projectId) {
+
+        Long userId = authUtil.getCurrentUserId();
+
 
         return projectMemberRepository.findByIdProjectId(projectId)
                 .stream()
@@ -43,7 +48,9 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
     @Override
-    public MemberResponse inviteMember(Long projectId, InviteMemberRequest request, Long userId) {
+    public MemberResponse inviteMember(Long projectId, InviteMemberRequest request) {
+
+        Long userId = authUtil.getCurrentUserId();
 
         Project project = getAccessibleProjectById(projectId, userId);
 
@@ -73,7 +80,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
     @Override
-    public MemberResponse updateMemberRole(Long projectId, Long memberId, UpdateMemberRoleRequest request, Long userId) {
+    public MemberResponse updateMemberRole(Long projectId, Long memberId, UpdateMemberRoleRequest request) {
 
         ProjectMemberId projectMemberID = new ProjectMemberId(projectId, memberId);
         ProjectMember projectMember = projectMemberRepository.findById(projectMemberID).orElseThrow();
@@ -84,7 +91,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
     @Override
-    public void removeProjectMember(Long projectId, Long memberId, Long userId) {
+    public void removeProjectMember(Long projectId, Long memberId) {
 
         ProjectMemberId projectMemberID = new ProjectMemberId(projectId, memberId);
         if(!projectMemberRepository.existsById(projectMemberID)){
