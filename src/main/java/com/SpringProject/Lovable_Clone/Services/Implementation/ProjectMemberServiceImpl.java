@@ -35,7 +35,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public List<MemberResponse> getProjectMembers(Long projectId, Long userId) {
-        Project project = getAccessibleProjectById(projectId, userId);
 
         return projectMemberRepository.findByIdProjectId(projectId)
                 .stream()
@@ -48,7 +47,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
         Project project = getAccessibleProjectById(projectId, userId);
 
-        User invitee = userRepository.findByEmail(request.email()).orElseThrow();
+        User invitee = userRepository.findByUsername(request.username()).orElseThrow();
 
         if(invitee.getId().equals(userId)){
             throw new RuntimeException("Can't invite yourself");
@@ -76,8 +75,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     @Override
     public MemberResponse updateMemberRole(Long projectId, Long memberId, UpdateMemberRoleRequest request, Long userId) {
 
-        Project project = getAccessibleProjectById(projectId,userId);
-
         ProjectMemberId projectMemberID = new ProjectMemberId(projectId, memberId);
         ProjectMember projectMember = projectMemberRepository.findById(projectMemberID).orElseThrow();
 
@@ -88,8 +85,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public void removeProjectMember(Long projectId, Long memberId, Long userId) {
-
-        Project project = getAccessibleProjectById(projectId,userId);
 
         ProjectMemberId projectMemberID = new ProjectMemberId(projectId, memberId);
         if(!projectMemberRepository.existsById(projectMemberID)){
