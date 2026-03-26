@@ -98,6 +98,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     public Project getAccessibleProjectById(Long id, Long userId) {
         return projectRepository.findAccessibleProjectById(id,userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Project" , id));
+                .orElseThrow(() -> new ResourceNotFoundException("Project" , "id"));
     }
 }
